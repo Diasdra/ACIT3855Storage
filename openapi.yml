@@ -1,0 +1,124 @@
+openapi: 3.0.0
+servers:
+  - url: 'http://localhost:8090'
+info:
+  description: This is a simple API
+  version: "1.0.0"
+  title: Simple Inventory API
+  contact:
+    email: you@your-company.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: admins
+    description: Secured Admin-only calls
+  - name: developers
+    description: Operations available to regular developers
+paths:
+  /get_car_returns:
+    get:
+      tags: 
+        - admins
+      summary: gets new car returns
+      operationId: app.get_car_returns
+      description: Gets car returns added after a timestamp
+      parameters:
+        - name: timestamp
+          in: query
+          description: Limits the number of items on a page
+          schema:
+            type: string
+            format: date-time
+            example: 2016-08-29T09:12:33.001Z
+      responses:
+        '200':
+          description: Successfully returned a list of car returns
+          content: 
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/return_car'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /get_car_rentals:
+      get:
+        tags: 
+          - admins
+        summary: gets new car rentals
+        operationId: app.get_car_rentals
+        description: Gets car rentals added after a timestamp
+        parameters:
+          - name: timestamp
+            in: query
+            description: Limits the number of items on a page
+            schema:
+              type: string
+              format: date-time
+              example: 2016-08-29T09:12:33.001Z
+        responses:
+          '200':
+            description: Successfully returned a list of car rentals
+            content: 
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/rent_car'
+          '400':
+            description: Invalid request
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+components:
+  schemas:
+    return_car:
+      type: object
+      required:
+        - car_id
+        - kilometers
+        - gas_used
+        - cost
+        - rent_duration
+      properties:
+        car_id:
+          type: integer
+        kilometers:
+          type: integer
+        gas_used:
+          type: integer
+        price:
+          type: integer
+        rent_duration:
+          type: integer
+    rent_car:
+      type: object
+      required:
+        - car_id
+        - car_type
+        - location
+        - mileage
+        - passenger_limit
+      properties:
+        car_id:
+          type: integer
+        car_type:
+          type: string
+        location:
+          type: string
+        mileage:
+          type: integer
+        passenger_limit:
+          type: integer

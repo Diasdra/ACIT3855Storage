@@ -1,0 +1,11 @@
+version: 1
+datastore:
+  user: user
+  password: password
+  hostname: acit3855-jennie-wu-lab6a.eastus.cloudapp.azure.com
+  port: 3306
+  db: events
+events:
+  hostname: acit3855-jennie-wu-lab6a.eastus.cloudapp.azure.com
+  port: 9092
+  topic: events
